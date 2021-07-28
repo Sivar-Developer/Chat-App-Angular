@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('src/app/pages/chat/chat.module').then(m => m.ChatModule),
       },
       {
+        path: 'people',
+        loadChildren: () => import('src/app/pages/people/people.module').then(m => m.PeopleModule),
+      },
+      {
         path: 'auth',
         loadChildren: () => import('src/app/pages/auth/auth.module').then(m => m.AuthModule),
       },
