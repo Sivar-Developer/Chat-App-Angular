@@ -1,0 +1,28 @@
+<div>
+  <div nz-dropdown nzTrigger="click" class="dropdown" [nzDropdownMenu]="menu">
+    <nz-badge [nzCount]="0">
+      <nz-avatar nzIcon="user" [nzShape]="'circle'" [nzSize]="'large'" class="avatar"></nz-avatar>
+    </nz-badge>
+  </div>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item>
+        <strong>Hello, {{ authService.user?.name }}</strong>
+      </li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item>
+        <div>
+          <strong>Email: </strong>
+          {{ authService.user?.email }}
+        </div>
+      </li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item>
+        <a href="javascript: void(0);" (click)="logout()">
+          <i class="menuIcon fe fe-log-out"></i>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

@@ -1,0 +1,39 @@
+<div class="header__container">
+  <div class="container-fluid" style="max-width: 1440px;">
+    <div class="switch" (click)="switchDarkTheme()" nzTooltipTitle="Switch Dark / Light Theme" nzTooltipPlacement="left"
+      nz-tooltip>
+      <i class="fe fe-moon on"></i>
+      <i class="fe fe-sun off"></i>
+    </div>
+    <div class="color" [ngClass]="{'reset': reset}" nzTooltipTitle="Set Primary Color" nzTooltipPlacement="left"
+      nz-tooltip>
+      <button (click)="resetColor()">
+        <i class="fe fe-x-circle"></i>
+      </button>
+      <input type="color" id="colorPicker" (change)="selectColor($event.target.value)" [(ngModel)]="primaryColor" />
+      <i class="fe fe-package"></i>
+    </div>
+    <header class="pt-3 pb-4">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="topbar">
+            <div class="logoContainer mr-auto">
+              <a href="#" [routerLink]="['/']">
+                <div class="logo">
+                  <img src="assets/images/rwanga-logo.svg" width="80" class="mr-2" alt="Clean UI" />
+                  <div class="name">Headway Program</div>
+                </div>
+              </a>
+            </div>
+            <div *ngIf="authService.checkAuth; else noauth">
+              <kit-topbar-user-menu></kit-topbar-user-menu>
+            </div>
+            <ng-template #noauth>
+              <button class="btn btn-light btn-rounded btn-in-header mr-1 rwanga-font" [routerLink]="['/auth/login']"><i class="fe fe-log-in"></i> Sign In</button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>

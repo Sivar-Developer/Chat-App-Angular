@@ -1,0 +1,11 @@
+<div class="pl-10">
+    <div class="d-flex flex-wrap align-items-center">
+      <div class="mr-3 mt-3 mb-3 position-relative">
+        <div style="width: 140px;">
+          <chart [type]="'doughnut'" [data]="chartData" [options]="options" ></chart>
+        </div>
+        <div class="tooltip text-gray-5 font-size-28" #tooltip></div>
+      </div>
+      <div #legend></div>
+    </div>
+</div>

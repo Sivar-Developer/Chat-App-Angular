@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "headway-program"
+  },
+  "targets": {
+    "headway-program": {
+      "hosting": {}
+    }
+  }
+}

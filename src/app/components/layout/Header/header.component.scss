@@ -1,0 +1,230 @@
+@import 'src/app/components/kit/core/mixins.scss';
+
+.header__container {
+  background: lighten($gray-1, 4%);
+  margin: 0 auto rem(30);
+  // border-bottom: 1px solid $border;
+}
+
+.switch {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  top: rem(100);
+  border-radius: 5px 0 0 5px;
+  background: $dark-gray-4;
+  padding: rem(10) rem(15) rem(8);
+  color: $dark-gray-1;
+  font-size: rem(21);
+  i.on {
+    display: inline;
+  }
+  i.off {
+    display: none;
+  }
+}
+
+.color {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  top: rem(160);
+  border-radius: 5px 0 0 5px;
+  background: $dark-gray-4;
+  padding: rem(10) rem(15) rem(8);
+  color: $dark-gray-1;
+  font-size: rem(21);
+
+  button {
+    padding: 0;
+    display: inline-block;
+    border-radius: 20px;
+    border: 2px solid $border;
+    position: absolute;
+    z-index: 1001;
+    height: 26px;
+    width: 26px;
+    top: -10px;
+    left: -10px;
+    font-size: 21px;
+    line-height: 26px;
+    outline: none;
+
+    i {
+      color: $gray-6;
+    }
+
+    &:hover {
+      background: $gray-3;
+    }
+  }
+
+  &.reset {
+    button {
+      display: none;
+    }
+  }
+
+  input {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+}
+
+.button {
+  position: relative;
+  padding: rem(5) rem(26) rem(7) rem(61) !important;
+  font-size: rem(20) !important;
+  text-align: left !important;
+  line-height: 1.2 !important;
+  span {
+    font-size: rem(14);
+    opacity: 0.6;
+    display: block;
+  }
+  i {
+    position: absolute;
+    left: rem(15);
+    top: rem(14);
+    font-size: rem(28);
+  }
+}
+
+.topbar {
+  min-height: rem(60);
+  padding: rem(20) 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.logoContainer {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 rem(28) 0 0;
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: rem(24);
+    white-space: nowrap;
+    width: 100%;
+    img {
+      position: relative;
+      top: -3px;
+    }
+  }
+  .name {
+    font-size: rem(20);
+    font-weight: 700;
+    color: $black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 90%;
+    display: block;
+  }
+  .descr {
+    margin-left: rem(13);
+    padding-left: rem(13);
+    height: rem(38);
+    line-height: rem(38);
+    border-left: 1px solid $gray-2;
+    font-size: rem(14);
+  }
+}
+
+.tabs {
+  ul {
+    display: none;
+  }
+  li {
+    display: inline-block;
+    a {
+      display: inline-block;
+      margin-right: rem(20);
+      text-transform: uppercase;
+      padding: rem(5) 0 rem(3);
+      border-bottom: 1px solid $border;
+      letter-spacing: 1px;
+
+      &.tabs__active {
+        border-color: $primary;
+        color: $primary;
+      }
+    }
+  }
+  &__border {
+    border-bottom: 1px solid $border;
+    li {
+      margin-bottom: -1px;
+    }
+  }
+}
+
+.buttons {
+  ul {
+    margin-bottom: 0;
+    margin-top: rem(15);
+    li {
+      display: inline-block;
+    }
+  }
+}
+
+// dark theme
+:host-context([data-kit-theme='dark']) {
+  .header__container {
+    background: $dark-gray-6;
+    border-bottom: 1px solid $dark-gray-4;
+  }
+
+  .logoContainer {
+    .name {
+      color: $white;
+    }
+    .descr {
+      color: $dark-gray-2;
+      border-left: 1px solid $dark-gray-4;
+    }
+  }
+
+  .switch {
+    background: $gray-3;
+    color: $dark-gray-3;
+    i.on {
+      display: none;
+    }
+    i.off {
+      display: inline;
+    }
+  }
+  .color {
+    background: $gray-3;
+    color: $dark-gray-3;
+  }
+  .tabs {
+    a {
+      border-color: $dark-gray-4;
+      color: $dark-gray-1;
+      &:hover {
+        color: $white;
+      }
+
+      &.tabs__active {
+        color: $primary;
+        border-color: $primary;
+      }
+    }
+  }
+}
