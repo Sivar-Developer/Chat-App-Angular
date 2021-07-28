@@ -11,7 +11,7 @@ const COMPONENTS = [NotFoundComponent]
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'attendance',
+    redirectTo: 'chat',
     pathMatch: 'full',
   },
   {

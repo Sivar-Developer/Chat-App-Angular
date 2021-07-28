@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
           ' | ',
         )
         this.titleService.setTitle(
-          `${title ? title + ' - ' : ''}Headway Program `,
+          `${title ? title + ' - ' : ''}Chat App `,
         )
       }
     })
