@@ -1,44 +1,79 @@
 <div>
     <div class="row">
-        <div class="col-12 col-md-3">
-            <div class="mb-4">
-                <nz-input-group [nzPrefix]="prefixTemplate">
-                    <input type="text" nz-input placeholder="Search user" />
-                </nz-input-group>
-                <ng-template #prefixTemplate><i nz-icon nzType="search"></i></ng-template>
-            </div>
-            <div class="dialogs">
-                <perfect-scrollbar style="height: 100%">
-                    <a *ngFor="let item of dialogs; let i = index;"
-                        [ngClass]="['item', i === activeIndex ? 'current' : '']"
-                        class="d-flex flex-nowrap align-items-center" (click)="changeDialog(i)">
-                        <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
-                            <img [src]="item.avatar" [alt]="item.name" />
-                        </div>
-                        <div class="flex-grow-1 info">
-                            <div class="text-uppercase font-size-12 text-truncate text-gray-6">
-                                {{item.position}}
-                            </div>
-                            <div class="text-dark font-size-18 font-weight-bold text-truncate">
-                                {{item.name}}
-                            </div>
-                        </div>
-                        <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
-                            <div class="badge badge-success">{{item.unread}}</div>
-                        </div>
-                    </a>
-                </perfect-scrollbar>
-            </div>
+        <div class="col-12 col-md-3 offset-md-1">
+            <nz-tabset>
+                <nz-tab nzTitle="Inbox">
+                    <div class="mb-4">
+                        <nz-input-group [nzPrefix]="prefixTemplate">
+                            <input type="text" nz-input placeholder="Search user" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplate><i nz-icon nzType="search"></i></ng-template>
+                    </div>
+                    <div class="dialogs">
+                        <perfect-scrollbar style="height: 100%">
+                            <a *ngFor="let item of dialogs; let i = index;"
+                                [ngClass]="['item', i === activeIndex ? 'current' : '']"
+                                class="d-flex flex-nowrap align-items-center" (click)="changeDialog(i)">
+                                <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
+                                    <img [src]="item.avatar" [alt]="item.name" />
+                                </div>
+                                <div class="flex-grow-1 info">
+                                    <div class="text-dark font-size-18 font-weight-bold text-truncate">
+                                        {{item.name}}
+                                    </div>
+                                    <div class="font-size-12 text-truncate text-gray-6">
+                                        Lorem Ipsum dolor what ever is this
+                                    </div>
+                                </div>
+                                <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
+                                    <div class="badge badge-primary">{{item.unread}}</div>
+                                </div>
+                            </a>
+                        </perfect-scrollbar>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="Active Users">
+                    <div class="mb-4">
+                        <nz-input-group [nzPrefix]="prefixTemplate">
+                            <input type="text" nz-input placeholder="Search user" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplate><i nz-icon nzType="search"></i></ng-template>
+                    </div>
+                    <div class="dialogs">
+                        <perfect-scrollbar style="height: 100%">
+                            <a *ngFor="let item of dialogs; let i = index;"
+                                [ngClass]="['item', i === activeIndex ? 'current' : '']"
+                                class="d-flex flex-nowrap align-items-center" (click)="changeDialog(i)">
+                                <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
+                                    <img [src]="item.avatar" [alt]="item.name" />
+                                </div>
+                                <div class="flex-grow-1 info">
+                                    <div class="text-uppercase font-size-12 text-truncate text-gray-6">
+                                        {{item.position}}
+                                    </div>
+                                    <div class="text-dark font-size-18 font-weight-bold text-truncate">
+                                        {{item.name}}
+                                    </div>
+                                </div>
+                                <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
+                                    <div class="badge badge-success">{{item.unread}}</div>
+                                </div>
+                            </a>
+                        </perfect-scrollbar>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+            
         </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-md-7">
             <div class="card">
                 <div class="card-header card-header-flex align-items-center">
                     <div class="d-flex flex-column justify-content-center mr-auto">
                         <h5 class="mb-0 mr-2 font-size-18">
-                            {{name}} <span class="font-size-14 text-gray-6">({{position}})</span>
+                            {{name}}
                         </h5>
                     </div>
-                    <div>
+                    <!-- <div>
                         <a href="javascript: void(0);" class="btn btn-sm btn-light mr-2" nz-tooltip
                             nzTooltipTitle="Unlock Account" nzTooltipPlacement="top">
                             <i class="fe fe-unlock"></i>
@@ -51,7 +86,7 @@
                             nzTooltipTitle="Delete user" nzTooltipPlacement="top">
                             <i class="fe fe-trash"></i>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-body">
                     <div class="height-400">
