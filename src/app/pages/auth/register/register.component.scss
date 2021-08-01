@@ -1,0 +1,93 @@
+.btn-google {
+    color: #fff;
+    background-color: #D43523;
+    border-radius: 40px;
+    padding: 0.5em 3em;
+}
+
+.btn-google:hover {
+    color: white;
+    background-color: #B14B3F;
+}
+
+.btn-facebook {
+    color: #fff;
+    background-color: #244795;
+    border-radius: 40px;
+    padding: 0.5em 3em;
+}
+
+.btn-facebook:hover {
+    color: white;
+    background-color: #283E6E;
+}
+
+.form-control {
+    border-radius: 40px;
+    /* margin: 1em; */
+}
+
+.form-control::placeholder {
+    color: #939394;
+    font-weight: lighter;
+    padding: 1em;
+}
+
+.text-medium {
+    color: #939394;
+    font-weight: 200;
+}
+
+.vertical-divider, .login-vertical-divider {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 50%;
+    line-height: 0;
+    text-align:center;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+    color: rgba(34,36,38,.15);
+  }
+  
+.vertical-divider:before, 
+.vertical-divider:after,
+.login-vertical-divider:before,
+.login-vertical-divider:after {
+    position: absolute;
+    left: 50%;
+    content: '';
+    z-index: 9;
+    border-left: 1px solid rgba(34,36,38,.15);
+    border-right: 1px solid rgba(255,255,255,.1);
+    width: 0;
+    height: calc(100% - 2rem);
+}
+
+  
+.row-divided > .vertical-divider {
+    height: calc(50% - 5rem);    
+}
+
+.row-divided > .login-vertical-divider {
+    height: calc(80% - 5rem);    
+}
+  
+.vertical-divider:before,
+.login-vertical-divider:before {
+    top: -100%;
+}
+  
+.vertical-divider:after ,
+.login-vertical-divider:after {
+    top: auto;
+    bottom: 0;
+}
+  
+.row-divided {
+    position:relative;
+}

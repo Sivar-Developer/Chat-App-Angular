@@ -1,0 +1,39 @@
+<div class="container-sm">
+    <div class="row row-divided">
+        <div class="col-lg-4 col-md-4 col-sm-12 offset-lg-4 offset-md-4">
+            <p class="text-center text-medium">Sign In with your email & password:</p>
+            <form [formGroup]="registerForm" (ngSubmit)="register()" method="POST">
+                <div class="form-group">
+                    <input class="form-control" [class.is-invalid]="invalidGrant || (f.name.invalid  && (f.name.dirty || f.name.touched))" type="text" formControlName="name" placeholder="Your Name">
+                    <div *ngIf="f.name.invalid  && (f.name.dirty || f.name.touched)" class="font-size-12 text-danger rwanga-font">
+                        <div *ngIf="f.name.errors.required">Name is required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" [class.is-invalid]="invalidGrant || (f.email.invalid  && (f.email.dirty || f.email.touched))" type="email" formControlName="email" placeholder="Your Email">
+                    <div *ngIf="f.email.invalid  && (f.email.dirty || f.email.touched)" class="font-size-12 text-danger rwanga-font">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email is not valid</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" [class.is-invalid]="invalidGrant || (f.password.invalid  && (f.password.dirty || f.password.touched))" type="password" formControlName="password" placeholder="Password">
+                    <div *ngIf="f.password.invalid  && (f.password.dirty || f.password.touched)" class="font-size-12 text-danger rwanga-font">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must be 8 characters or more.</div>
+                    </div>
+                    <div *ngIf="invalidGrant" class="font-size-12 text-danger rwanga-font">{{ invalidGrant }}</div>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                </div><br>
+                <div class="form-group">
+                    <div class="text-center rwanga-font">
+                        <button type="submit" nz-button nzType="primary" nzSize="large" nzShape="round" [disabled]="registerForm.invalid">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

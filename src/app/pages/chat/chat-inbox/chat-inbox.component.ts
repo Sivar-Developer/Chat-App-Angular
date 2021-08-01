@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from 'src/app/services/database/chat.service';
 declare var require: any
 const data: any = require('./data.json')
 
@@ -16,8 +17,15 @@ export class ChatInboxComponent implements OnInit {
   dialog = this.dialogs[this.activeIndex].dialog
   avatar = this.dialogs[this.activeIndex].avatar
 
-  constructor() {}
-  ngOnInit() {}
+  conversations: any
+
+  constructor(
+    private chatService: ChatService
+  ) {}
+
+  ngOnInit() {
+    this.chatInbox()
+  }
 
   changeDialog(index) {
     this.activeIndex = index
@@ -26,5 +34,14 @@ export class ChatInboxComponent implements OnInit {
     this.dialog = this.dialogs[index].dialog
     this.avatar = this.dialogs[index].avatar
   }
+
+  chatInbox() {
+    this.chatService.inbox().subscribe((response) => {
+      this.conversations = response
+      console.log(this.conversations)
+    })
+  }
+
+
 
 }
