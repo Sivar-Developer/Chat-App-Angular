@@ -11,24 +11,45 @@
                     </div>
                     <div class="dialogs">
                         <perfect-scrollbar style="height: 100%">
-                            <a *ngFor="let item of dialogs; let i = index;"
-                                [ngClass]="['item', i === activeIndex ? 'current' : '']"
-                                class="d-flex flex-nowrap align-items-center" (click)="changeDialog(i)">
-                                <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
-                                    <img [src]="item.avatar" [alt]="item.name" />
-                                </div>
-                                <div class="flex-grow-1 info">
-                                    <div class="text-dark font-size-18 font-weight-bold text-truncate">
-                                        {{item.name}}
+                            <ng-container *ngIf="conversations; else noconversations">
+                                <a *ngFor="let conversation of conversations; let i = index;"
+                                    class="d-flex flex-nowrap align-items-center mb-3" (click)="chatConversation(conversation.chat_participants, conversation.id)">
+                                    <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
+                                        <ng-container *ngFor="let participant of (conversation?.chat_participants)">
+                                            <ng-container *ngFor="let participant of conversation.chat_participants">
+                                                <ng-container *ngIf="participant.user?.id !== authService.user.id">
+                                                    <img [src]="participant?.user?.avatarImageUrl" alt="item.name" />
+                                                </ng-container>
+                                                <ng-container *ngIf="conversation.chat_participants.length == 1">
+                                                    <img [src]="participant?.user?.avatarImageUrl" alt="item.name" />
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
                                     </div>
-                                    <div class="font-size-12 text-truncate text-gray-6">
-                                        Lorem Ipsum dolor what ever is this
+                                    <div class="flex-grow-1 info">
+                                        <div class="text-dark font-size-18 font-weight-bold text-truncate">
+                                            <ng-container *ngFor="let participant of conversation.chat_participants">
+                                                <ng-container *ngIf="participant.user?.id !== authService.user.id">
+                                                    {{ participant.user?.name }}
+                                                </ng-container>
+                                                <ng-container *ngIf="conversation.chat_participants.length == 1">
+                                                    {{ participant.user?.name }}
+                                                </ng-container>
+                                            </ng-container>
+                                            
+                                        </div>
+                                        <div class="font-size-12 text-truncate text-gray-6">
+                                            {{ conversation.chat_messages[0]?.sender_id == authService.user?.id ? 'You:' : null }} {{ conversation.chat_messages[0]?.body }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
-                                    <div class="badge badge-primary">{{item.unread}}</div>
-                                </div>
-                            </a>
+                                    <!-- <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
+                                        <div class="badge badge-primary">{{item.unread}}</div>
+                                    </div> -->
+                                </a>
+                            </ng-container>
+                            <ng-template #noconversations>
+                                <p>No Conversation</p>
+                            </ng-template>
                         </perfect-scrollbar>
                     </div>
                 </nz-tab>
@@ -41,22 +62,18 @@
                     </div>
                     <div class="dialogs">
                         <perfect-scrollbar style="height: 100%">
-                            <a *ngFor="let item of dialogs; let i = index;"
-                                [ngClass]="['item', i === activeIndex ? 'current' : '']"
-                                class="d-flex flex-nowrap align-items-center" (click)="changeDialog(i)">
+                            <a *ngFor="let user of users; let i = index;"
+                                class="d-flex flex-nowrap align-items-center mb-3" (click)="chatConversationWithUser(user.id)">
                                 <div class="kit__utils__avatar kit__utils__avatar--size46 mr-3 flex-shrink-0">
-                                    <img [src]="item.avatar" [alt]="item.name" />
+                                    <img [src]="user.avatarImageUrl" alt="item.name" />
                                 </div>
                                 <div class="flex-grow-1 info">
-                                    <div class="text-uppercase font-size-12 text-truncate text-gray-6">
-                                        {{item.position}}
+                                    <div class="font-size-12 text-truncate text-gray-6">
+                                        {{ user.email }}
                                     </div>
                                     <div class="text-dark font-size-18 font-weight-bold text-truncate">
-                                        {{item.name}}
+                                        {{ user.name }}
                                     </div>
-                                </div>
-                                <div *ngIf="item.unread" class="flex-shrink-0 align-self-start unread">
-                                    <div class="badge badge-success">{{item.unread}}</div>
                                 </div>
                             </a>
                         </perfect-scrollbar>
@@ -65,7 +82,7 @@
             </nz-tabset>
             
         </div>
-        <div class="col-12 col-md-7">
+        <div class="col-12 col-md-6">
             <div class="card">
                 <div class="card-header card-header-flex align-items-center">
                     <div class="d-flex flex-column justify-content-center mr-auto">
@@ -92,16 +109,16 @@
                     <div class="height-400">
                         <perfect-scrollbar>
                             <div class="d-flex flex-column justify-content-end pr-2 height-100p">
-                                <div *ngFor="let message of dialog; let i = index"
-                                    [ngClass]="['message', message.owner !== 'you' ? 'answer' : '']">
+                                <div *ngFor="let message of messages; let i = index"
+                                    [ngClass]="['message', authService.user?.id !== message.sender?.id ? 'answer' : '']">
                                     <div class="messageContent">
                                         <div class="text-gray-4 font-size-12 text-uppercase">
-                                            {{message.owner}}, {{message.time}}
+                                            {{ message.sender?.name }} {{message.created_at}}
                                         </div>
-                                        <div>{{message.content}}</div>
+                                        <div>{{message.body}}</div>
                                     </div>
                                     <div class="kit__utils__avatar messageAvatar">
-                                        <img [src]="message.owner !== 'you' ? avatar : 'assets/images/avatars/avatar-2.png'"
+                                        <img [src]="authService.user?.id !== message.sender?.id ? message.sender.avatarImageUrl : 'assets/images/avatars/avatar-2.png'"
                                             alt="Avatar">
                                     </div>
                                 </div>
@@ -109,11 +126,12 @@
                         </perfect-scrollbar>
 
                     </div>
-                    <div class="pt-2 pb-2">{{name}} is typing...</div>
+                    <!-- <div class="pt-2 pb-2">Sivar is typing...</div> -->
+                    <div class="pt-2 pb-2"></div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Send message..." />
+                        <input type="text" class="form-control" placeholder="Send message..." [(ngModel)]="message" (keyup.enter)="chatStoreMessage(messages[0]?.chat_conversation_id)" />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" type="button" (click)="chatStoreMessage(messages[0]?.chat_conversation_id)" [disabled]="!message">
                                 <i class="fe fe-send align-middle"></i>
                             </button>
                         </div>

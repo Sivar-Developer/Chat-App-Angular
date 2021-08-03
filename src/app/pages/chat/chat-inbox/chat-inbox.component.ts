@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/database/auth.service';
 import { ChatService } from 'src/app/services/database/chat.service';
+import { UserService } from 'src/app/services/database/user.service';
 declare var require: any
 const data: any = require('./data.json')
 
@@ -12,27 +14,31 @@ export class ChatInboxComponent implements OnInit {
 
   dialogs = data
   activeIndex = 0
-  name = this.dialogs[this.activeIndex].name
-  position = this.dialogs[this.activeIndex].position
-  dialog = this.dialogs[this.activeIndex].dialog
-  avatar = this.dialogs[this.activeIndex].avatar
+  name = ''
+  // dialog = this.dialogs[this.activeIndex].dialog
+  avatar = 'assets/images/avatars/1.jpg'
 
+  users: any
   conversations: any
+  messages: any
+  message: string
+  participantId: number
 
   constructor(
-    private chatService: ChatService
+    public authService: AuthService,
+    private userService: UserService,
+    private chatService: ChatService,
   ) {}
 
   ngOnInit() {
     this.chatInbox()
+    this.usersIndex()
   }
 
-  changeDialog(index) {
-    this.activeIndex = index
-    this.name = this.dialogs[index].name
-    this.position = this.dialogs[index].position
-    this.dialog = this.dialogs[index].dialog
-    this.avatar = this.dialogs[index].avatar
+  usersIndex() {
+    this.userService.index().subscribe(response => {
+      this.users = response
+    })
   }
 
   chatInbox() {
@@ -41,6 +47,45 @@ export class ChatInboxComponent implements OnInit {
       console.log(this.conversations)
     })
   }
+
+  chatConversation(chatParticipants: any, conversationId: number) {
+    chatParticipants.forEach(participant => {
+      if(participant.user?.id != this.authService.user.id) {
+        this.participantId = participant.user?.id
+      }
+    });
+    this.message = null
+    this.chatService.conversation(conversationId).subscribe((response) => {
+      this.messages = response
+      this.chatInbox()
+    })
+  }
+
+  chatConversationWithUser(userId: number) {
+    this.message = null
+    this.chatService.conversationWithUser(userId).subscribe((response) => {
+      this.messages = response
+      this.participantId = userId
+      this.chatInbox()
+    })
+  }
+
+  chatStoreMessage(chat_conversation_id: number) {
+    let data = {
+      chat_conversation_id: chat_conversation_id,
+      chat_participant_id: this.participantId,
+      message: this.message
+    }
+
+    this.chatService.storeMessage(data).subscribe(() => {
+      this.message = null
+      this.chatService.conversation(chat_conversation_id).subscribe((response) => {
+        this.messages = response
+        this.chatInbox()
+      })
+    })
+  }
+  
 
 
 

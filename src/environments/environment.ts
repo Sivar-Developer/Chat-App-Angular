@@ -8,7 +8,7 @@ export const environment = {
   url: 'https://chat-app.appspot.fragmatica.com',
   grant_type: "password",
 	client_id: "2",
-	client_secret: "YpjFzh9dbpEBxcWmVBYrZm5HW2dsXS4GtoJ1dnBE",
+	client_secret: "D1EIgp8dXAE4NCOk1fRBKpdvxpbjaP2bAwFeYr54",
 }
 
 /*

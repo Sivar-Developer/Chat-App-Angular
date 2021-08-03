@@ -20,6 +20,10 @@ export class ChatService {
     return this.http.get<any>(this.core.api_url + `/api/chat/conversation/${conversationId}`)
   }
 
+  conversationWithUser(userId: number) {
+    return this.http.get<any>(this.core.api_url + `/api/chat/conversation/user/${userId}`);
+  }
+
   storeMessage(data: any) {
     return this.http.post<any>(this.core.api_url + `/api/chat/message/store`, data)
   }
