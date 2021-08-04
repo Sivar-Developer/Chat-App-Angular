@@ -14,15 +14,11 @@ import { NZ_ICONS } from 'ng-zorro-antd'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LayoutComponentsModule } from 'src/app/components/layout/layout.module'
+import { environment } from '../environments/environment';
 
 // Firebase
-import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
-import { MessagingService } from './services/database/messaging.service';
-import { environment } from '../environments/environment';
-import { AsyncPipe } from '../../node_modules/@angular/common';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 /**
  * Locale Registration
@@ -77,13 +73,11 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutComponentsModule,
 
     // Firebase
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
     ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
   ],
-  providers: [...LOCALE_PROVIDERS, { provide: NZ_ICONS, useValue: icons }, { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },MessagingService,AsyncPipe],
+  providers: [...LOCALE_PROVIDERS, { provide: NZ_ICONS, useValue: icons }, { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

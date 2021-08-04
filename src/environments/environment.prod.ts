@@ -14,6 +14,6 @@ export const environment = {
     appId: "1:876591012165:web:d4c1cf6853e7b01e5bc62c"
   },
   sw_push: {
-    server_public_key: 'BJxkWfLY53jBopHIWKY1tvXracyvk0OWY2RdATFgTymiRWLqfRz-ghrJ5pC6CBhMvbAEYgs8GuQJFqbW31HBK88'
+    server_public_key: 'BMU_DexceBCUGX1cDogu4hV5IQcUJosS16RZxTKkOkCZTTHG9aHk7gMrma4ZohPizGEO9K7jO-NdduYBkBKR5TA'
   }
 }

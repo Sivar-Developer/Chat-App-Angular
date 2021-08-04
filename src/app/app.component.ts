@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser'
 import { SwPush, SwUpdate } from '@angular/service-worker'
 import { CoreService } from './services/ui/core.service'
 import { AuthService } from './services/database/auth.service'
+import { AngularFireMessaging } from '@angular/fire/messaging'
 
 @Component({
   selector: 'app-root',
@@ -20,26 +21,15 @@ import { AuthService } from './services/database/auth.service'
 })
 export class AppComponent implements OnInit {
 
-  update: boolean = false
-  subscription: any
-
   constructor(
-    updates: SwUpdate,
-    private swPush: SwPush,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private core: CoreService,
-    private auth: AuthService
+    private afMessaging: AngularFireMessaging
   ) {
-    updates.available.subscribe(event => {
-      updates.activateUpdate().then(() => document.location.reload());
-    })
   }
 
   ngOnInit() {
-    this.pushSubscription()
-    this.backgroundSync()
+    this.requestPermission()
     // set page title from router data variable
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -51,30 +41,6 @@ export class AppComponent implements OnInit {
         )
       }
     })
-
-    // this.titleService.setTitle( newTitle );
-    // this.router.events
-    //   .pipe(
-    //     filter(event => event instanceof NavigationEnd),
-    //     map(() => this.activatedRoute),
-    //     map(route => {
-    //       while (route.firstChild) {
-    //         route = route.firstChild
-    //       }
-    //       return route
-    //     }),
-    //     map(route => {
-    //       while (route.firstChild) {
-    //         route = route.firstChild
-    //       }
-    //       return route
-    //     }),
-    //     filter(route => route.outlet === 'primary'),
-    //     mergeMap(route => route.data),
-    //   )
-    //   .subscribe(event =>
-    //     this.titleService.setTitle(`Clean UI KIT Pro (Angular Edition)${event['title'] ? ' -' + event['title'] : ''}`),
-    //   )
   }
 
   getTitle(state, parent) {
@@ -89,23 +55,20 @@ export class AppComponent implements OnInit {
     return data
   }
 
-  pushSubscription() {
-    if(!this.swPush.isEnabled) {
-      console.log('Notification is not enabled')
-      return;
-    }
-
-    this.swPush.requestSubscription({ serverPublicKey: this.core.sw_push.server_public_key })
-    .then(sub => {
-      this.subscription = JSON.stringify(sub)
-      if(this.auth.checkAuth) {
-        this.auth.pushNotificationSubscribe(this.subscription).subscribe(data => console.log(data))
-      }
-    })
-    .catch(error => console.log(error))
+  // Angular Firebase Messaging
+  requestPermission() {
+    this.afMessaging.requestPermission.subscribe((token) => {
+      console.log("Permission Granted.")
+      this.afMessaging.requestToken.subscribe((token) => {
+        console.log(token)
+      })
+     },
+     (error) => { console.error(error) }
+     )
   }
 
-  backgroundSync() {
-    navigator.serviceWorker.ready.then(reg => reg.sync.register('push-notification')).catch(console.log)
+  listen() {
+    //
   }
+
 }
