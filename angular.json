@@ -40,7 +40,8 @@
                   "**/styles/**/*"
                 ],
                 "output": "/assets/"
-              }
+              },
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/ng-zorro-antd/style/entry.less",
@@ -78,7 +79,9 @@
                   "maximumWarning": "2mb",
                   "maximumError": "10mb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             },
             "hmr": {
               "fileReplacements": [
@@ -124,7 +127,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ]
           }
         },

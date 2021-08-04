@@ -3,7 +3,7 @@
     "default": "chat-app-c3418"
   },
   "targets": {
-    "headway-program": {
+    "chat-app-c3418": {
       "hosting": {}
     }
   }

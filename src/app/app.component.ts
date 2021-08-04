@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, Event, NavigationEnd, ActivatedRoute } from '@angular/router'
 import { Title } from '@angular/platform-browser'
+import { SwPush, SwUpdate } from '@angular/service-worker'
+import { CoreService } from './services/ui/core.service'
+import { AuthService } from './services/database/auth.service'
 
 @Component({
   selector: 'app-root',
@@ -16,13 +19,27 @@ import { Title } from '@angular/platform-browser'
   `,
 })
 export class AppComponent implements OnInit {
+
+  update: boolean = false
+  subscription: any
+
   constructor(
+    updates: SwUpdate,
+    private swPush: SwPush,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-  ) {}
+    private core: CoreService,
+    private auth: AuthService
+  ) {
+    updates.available.subscribe(event => {
+      updates.activateUpdate().then(() => document.location.reload());
+    })
+  }
 
   ngOnInit() {
+    this.pushSubscription()
+    this.backgroundSync()
     // set page title from router data variable
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -70,5 +87,25 @@ export class AppComponent implements OnInit {
       data.push(...this.getTitle(state, state.firstChild(parent)))
     }
     return data
+  }
+
+  pushSubscription() {
+    if(!this.swPush.isEnabled) {
+      console.log('Notification is not enabled')
+      return;
+    }
+
+    this.swPush.requestSubscription({ serverPublicKey: this.core.sw_push.server_public_key })
+    .then(sub => {
+      this.subscription = JSON.stringify(sub)
+      if(this.auth.checkAuth) {
+        this.auth.pushNotificationSubscribe(this.subscription).subscribe(data => console.log(data))
+      }
+    })
+    .catch(error => console.log(error))
+  }
+
+  backgroundSync() {
+    navigator.serviceWorker.ready.then(reg => reg.sync.register('push-notification')).catch(console.log)
   }
 }

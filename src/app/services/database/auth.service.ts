@@ -91,4 +91,8 @@ export class AuthService {
       return this.user;
     }))
   }
+
+  pushNotificationSubscribe(subscription: any) {
+    return this.http.post<any>(this.core.api_url + '/api/push-notification/subscribe', { subscription: subscription })
+  }
 }

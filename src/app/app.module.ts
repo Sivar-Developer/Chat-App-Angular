@@ -15,13 +15,24 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LayoutComponentsModule } from 'src/app/components/layout/layout.module'
 
+// Firebase
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { MessagingService } from './services/database/messaging.service';
+import { environment } from '../environments/environment';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+
 /**
  * Locale Registration
  */
 import { registerLocaleData } from '@angular/common'
 import { default as localeEn } from '@angular/common/locales/en'
 import { NZ_I18N, en_US as localeZorro } from 'ng-zorro-antd'
-import { HttpInterceptorService } from './services/ui/http-interceptor.service'
+import { HttpInterceptorService } from './services/ui/http-interceptor.service';
+import { ServiceWorkerModule } from '@angular/service-worker'
+
 const LOCALE_PROVIDERS = [
   { provide: LOCALE_ID, useValue: 'en' },
   { provide: NZ_I18N, useValue: localeZorro },
@@ -64,8 +75,15 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
      * Layout Components
      */
     LayoutComponentsModule,
+
+    // Firebase
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
   ],
-  providers: [...LOCALE_PROVIDERS, { provide: NZ_ICONS, useValue: icons }, { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },],
+  providers: [...LOCALE_PROVIDERS, { provide: NZ_ICONS, useValue: icons }, { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },MessagingService,AsyncPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
